@@ -1,0 +1,63 @@
+from search import Problem
+
+
+def is_valid(state):
+    lupStanga, capraStanga, varzaStanga, om, lupDreapta, capraDreapta, varzaDreapta = state
+    if((lupStanga == capraStanga == 1 and om == 'DREAPTA')
+        or (capraStanga == varzaStanga == 1 and om == 'DREAPTA')
+        or (lupDreapta == capraDreapta == 1 and om == 'STANGA')
+        or (capraDreapta == varzaDreapta == 1 and om == 'STANGA')):
+        return False
+    return True
+
+ 
+
+
+class VCL(Problem):
+    def result(self, state, action):
+        """The result of going to a neighbor is just that neighbor."""
+        return action
+
+    def value(self, state):
+        pass
+
+    def __init__(self, initial, goal):
+        self.goal = goal
+        self.initial = initial
+        Problem.__init__(self, self.initial, self.goal)
+
+    def __repr__(self):
+        return "< State (%s, %s) >" % (self.initial, self.goal)
+
+    def goal_test(self, state):
+        return state == self.goal
+
+    def actions(self, state):
+        actions = []
+        if state[3] == 'STANGA' :
+            new_state = (0, state[1], state[2], 'DREAPTA', 1, state[5], state[6])
+            if is_valid(new_state):
+                actions.append(new_state)
+
+            new_state = (state[0], state[1], 0, 'DREAPTA', state[4], state[5], 1 )
+            if is_valid(new_state):
+                actions.append(new_state)
+
+            new_state = (state[0], 0, state[2], 'DREAPTA', state[4], 1, state[6])
+            if is_valid(new_state):
+                actions.append(new_state)
+        else:
+            new_state = (1, state[1], state[2], 'STANGA', 0, state[5], state[6])
+            if is_valid(new_state):
+                actions.append(new_state)
+            new_state = (state[0], state[1], 1, 'STANGA', state[4], state[5], 0)
+            if is_valid(new_state):
+                actions.append(new_state)
+            new_state = (state[0], 1, state[2], 'STANGA', state[4], 0, state[6])
+            if is_valid(new_state):
+                actions.append(new_state)
+            new_state = (state[0], state[1], state[2], 'STANGA', state[3], state[4], state[5])
+            if is_valid(new_state):
+                actions.append(new_state)
+
+        return actions
