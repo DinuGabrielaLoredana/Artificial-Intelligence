@@ -1,0 +1,14 @@
+from eight_puzzle import EightPuzzle
+from nqueen import NQueensProblem
+from search import *
+from MisionariSiCanibali import *
+import pprint as pprint
+def main():
+
+
+     problem_MC = MC((0, 0, 'DREAPTA', 3, 3), (3, 3, 'STANGA', 0, 0))
+     path = breadth_first_tree_search(problem_MC).solution()
+     pprint.pprint(path)
+
+if __name__ == "__main__":
+    main()
