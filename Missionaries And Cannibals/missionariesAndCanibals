@@ -1,0 +1,80 @@
+from search import Problem
+
+
+def is_valid(state):
+    misionariStanga, canibaliStanga, barca, misionariDreapta, canibaliDreapta = state
+    if ((misionariStanga >= 0  and misionariDreapta >= 0) and
+            (canibaliStanga >=0 and canibaliDreapta>=0) and
+            (misionariStanga == 0 or misionariStanga >= canibaliStanga) and
+            (misionariDreapta == 0 or misionariDreapta >= canibaliDreapta)):
+        return True
+    else:
+        return False
+
+
+
+class MC(Problem):
+    def result(self, state, action):
+        """The result of going to a neighbor is just that neighbor."""
+        return action
+
+    def value(self, state):
+        pass
+
+    def __init__(self, initial, goal):
+        self.goal = goal
+        self.initial = initial
+        Problem.__init__(self, self.initial, self.goal)
+
+    def __repr__(self):
+        return "< State (%s, %s) >" % (self.initial, self.goal)
+
+    def goal_test(self, state):
+        return state == self.goal
+
+    def actions(self, state):
+        actions = []
+        if state[2] == 'STANGA':
+            # 1 misionar si un canibal la dreapta
+            new_state = (state[0] - 1, state[1]-1, 'DREAPTA', state[3] + 1, state[4]+1)
+            if is_valid(new_state):
+                actions.append(new_state)
+            # 2 misionari la dreapta
+            new_state = (state[0] - 2, state[1], 'DREAPTA', state[3] + 2, state[4])
+            if is_valid(new_state):
+                actions.append(new_state)
+            #2 canibali la dreapta
+            new_state = (state[0], state[1] - 2 , 'DREAPTA', state[3], state[4] + 2)
+            if is_valid(new_state):
+                actions.append(new_state)
+            # 1 misionar la dreapta
+            new_state = (state[0] -1 , state[1], 'DREAPTA', state[3] + 1, state[4])
+            if is_valid(new_state):
+                actions.append(new_state)
+             #un canibal la dreapta
+            new_state = (state[0], state[1] - 1 , 'DREAPTA', state[3], state[4] + 1)
+            if is_valid(new_state):
+                actions.append(new_state)
+        else:
+            # 1 misionar si un canibal la stanga
+            new_state = (state[0] +1, state[1]+1, 'STANGA', state[3] -1, state[4]-1)
+            if is_valid(new_state):
+                actions.append(new_state)
+            # 2 misionari la stanga
+            new_state = (state[0] + 2, state[1], 'STANGA', state[3] - 2, state[4])
+            if is_valid(new_state):
+                actions.append(new_state)
+            # 2 canibali la stanga
+            new_state = (state[0], state[1] + 2, 'STANGA', state[3], state[4] - 2)
+            if is_valid(new_state):
+                actions.append(new_state)
+            # 1 misionar la stanga
+            new_state = (state[0] + 1, state[1], 'STANGA', state[3] - 1, state[4])
+            if is_valid(new_state):
+                actions.append(new_state)
+            # un canibal la stanga
+            new_state = (state[0], state[1] + 1, 'STANGA', state[3], state[4] - 1)
+            if is_valid(new_state):
+                actions.append(new_state)
+
+        return actions
