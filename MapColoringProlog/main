@@ -1,0 +1,39 @@
+color(red).
+color(blue).
+color(green).
+color(yellow).
+color(purple).
+
+coloring(C1,C2,C3,C4,C5):-
+    %coloreaza C1
+    color(C1),
+    
+    %coloreaza C2
+    color(C2),
+    
+    %daca au culori diferite, coloreaza C3
+    dif(C1,C2),
+    color(C3),
+    
+    %daca cele 3 suprafete au culori diferite, coloreaza C4
+    dif(C1,C3),
+    dif(C2,C3),
+    color(C4),
+    
+    %daca cele 4 suprafete au culori diferite, coloreaza C5
+    dif(C1,C4),
+    dif(C2,C4),
+    dif(C3,C4),
+    color(C5),
+    
+    %verifica daca, prin adaugarea lui C5, 
+    %	avem culori diferite pe fiecare suprafata
+    dif(C1,C5),
+    dif(C2,C5),
+    dif(C3,C5),
+    dif(C4,C5).
+    
+    
+%queries:
+%coloring(C1,C2,C3,C4,C5)
+%aggregate_all(count,coloring(C1,C2,C3,C4,C5),Count)
