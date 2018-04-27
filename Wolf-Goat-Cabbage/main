@@ -1,0 +1,20 @@
+from eight_puzzle import EightPuzzle
+from nqueen import NQueensProblem
+from search import *
+from vcl import *
+
+def main():
+    # problem2 = EightPuzzle((1, 2, 3, 4, 5, 6, 7, 8, 0), (1, 2, 3, 4, 7, 6, 8, 5, 0))
+    # path = breadth_first_graph_search(problem2).solution()
+    # print(path, '\n')
+
+    problem_VCL = VCL((1, 1, 1, 'STANGA', 0, 0, 0), (0, 0, 0, 'DREAPTA', 1, 1, 1))
+    path = breadth_first_graph_search(problem_VCL).solution()
+    print(path, '\n')
+
+     #problem_VCL = VCL((3, 3, 'left', 0, 0), (0, 0, 'right', 3, 3))
+     #path = breadth_first_graph_search(problem_VCL).solution()
+    # print(path, '\n')
+
+if __name__ == "__main__":
+   main()
