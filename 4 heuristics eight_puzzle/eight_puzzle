@@ -1,0 +1,38 @@
+from search import EightPuzzle
+import math
+
+class EightPuzzleMiss(EightPuzzle):
+    def h(self, node):
+        """ Return the heuristic value for a given state. Default heuristic function used is
+        h(n) = number of misplaced tiles """
+        return sum(s != g for (s, g) in zip(node.state, self.goal))
+    
+        
+class EightPuzzleMht(EightPuzzle):
+    def h(self, node):
+        """ implement Manhattan distance. Hint! Look at
+        Missplaced Tiles heuristic function above """
+        return sum(abs(e - s) for s, e in zip(node.state, self.goal))
+
+class EightPuzzleEuclidianDistance(EightPuzzle):
+  def h(self,node):
+    return math.sqrt(sum(abs((e - s)*(e-s)) for s, e in zip(node.state, self.goal)))
+
+
+class ColAndRow(EightPuzzle):
+    def __init__(self,t1,t2):
+      self.initial = t1
+      self.goal = t2
+    def h(self,node):
+        sz = math.ceil(math.sqrt(len(self.goal)))
+        sr = sc = 0
+        for i in range(0, sz):
+           #  print(list(zip(self.initial[i * sz:(i + 1) * sz], self.goal[i * sz:(i + 1) * sz])))
+             sr = sr + sum(s != g for (s, g) in zip(self.initial[i * sz:(i + 1) * sz], self.goal[i * sz:(i + 1) * sz]))
+        for i in range(0, sz):
+             #print(list(zip(self.initial[i:len(self.initial):sz], self.goal[i:len(self.goal):sz])))
+             sc = sc + sum(s != g for (s, g) in zip(self.initial[i:len(self.initial):sz], self.goal[i:len(self.goal):sz]))
+        return sr + sc
+                  
+      
+             
