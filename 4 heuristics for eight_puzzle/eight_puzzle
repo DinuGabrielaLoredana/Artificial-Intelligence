@@ -36,7 +36,7 @@ class ColAndRow(EightPuzzle):
                   
       
 
-class EightPuzzleLinearConflict(EightPuzzle):
+class EightPuzzleLinearConflict(EightPuzzle): 
     def h(self,node):
         size = math.ceil(math.sqrt(len(self.goal)))
         line_sum = 0
