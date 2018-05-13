@@ -422,7 +422,7 @@ class EightPuzzle(Problem):
     where one of the squares is a blank. A state is represented as a 3x3 list,
     where element at index i,j represents the tile number (0 if it's an empty square) """
 
-    def __init__(self, initial, goal=(1, 2, 3, 4, 5, 6, 7, 8, 0)):
+    def __init__(self, initial, goal=(1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,0)):
         """ Define goal state and initialize a problem """
 
         self.goal = goal
@@ -440,14 +440,14 @@ class EightPuzzle(Problem):
 
         possible_actions = ['UP', 'DOWN', 'LEFT', 'RIGHT']
         index_blank_square = self.find_blank_square(state)
-
-        if index_blank_square % 3 == 0:
+        n= math.sqrt(len(self.goal))
+        if index_blank_square % n == 0:
             possible_actions.remove('LEFT')
-        if index_blank_square < 3:
+        if index_blank_square < n:
             possible_actions.remove('UP')
-        if index_blank_square % 3 == 2:
+        if index_blank_square % n == n-1:
             possible_actions.remove('RIGHT')
-        if index_blank_square > 5:
+        if index_blank_square > len(self.goal)-n-1:
             possible_actions.remove('DOWN')
 
         return possible_actions
@@ -459,8 +459,8 @@ class EightPuzzle(Problem):
         # blank is the index of the blank square
         blank = self.find_blank_square(state)
         new_state = list(state)
-
-        delta = {'UP':-3, 'DOWN':3, 'LEFT':-1, 'RIGHT':1}
+        n= int(math.sqrt(len(self.goal)))
+        delta = {'UP':-n, 'DOWN':n, 'LEFT':-1, 'RIGHT':1}
         neighbor = blank + delta[action]
         new_state[blank], new_state[neighbor] = new_state[neighbor], new_state[blank]
 
