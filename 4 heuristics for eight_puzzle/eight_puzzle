@@ -35,4 +35,42 @@ class ColAndRow(EightPuzzle):
         return sr + sc
                   
       
-             
+
+class EightPuzzleLinearConflict(EightPuzzle):
+    def h(self,node):
+        size = math.ceil(math.sqrt(len(self.goal)))
+        line_sum = 0
+
+        for i in range(0, size):
+            line_sum = line_sum + sum(
+                s != g for (s, g) in zip(self.initial[i * size:(i + 1) * size], self.goal[i * size:(i + 1) * size]))
+
+        return line_sum
+
+
+
+class NilssonSeq(EightPuzzle):
+
+    """ h(n) = P(n) + 3*S(n)
+    P(n) is the Manhattan Distance of each tile from its proper position.
+    S(n) is the sequence score obtained by checking around the non-central squares in turn, allotting 2 for every tile
+    not followed by its proper successor and 1 in case that the center is not empty.  
+    This heuristic is not admissible
+    
+   https://heuristicswiki.wikispaces.com/N+-+Puzzle
+    """
+
+    def h(self,node):
+        manhattan_distance = sum(abs(e - s) for (s, e) in zip(node.state, self.goal))
+        sequence_score = 0
+        center_squares_matrix_size = math.ceil((len(self.goal)//2))
+        sequence_score += math.sqrt(sum(abs((e - s) * (e - s)) for (s, e) in zip(node.state, self.goal)))
+        for i in range (0,len(self.goal)):
+
+            if i % center_squares_matrix_size == 0:
+                sequence_score += 1
+            elif i+1 != (i+1) % center_squares_matrix_size:
+                sequence_score += 2
+
+        return manhattan_distance + 3*sequence_score
+
