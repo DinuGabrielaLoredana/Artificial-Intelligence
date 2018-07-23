@@ -1,0 +1,8 @@
+open sources in any python editor
+hit run
+The program will ask for the number of cities (which will then randomly be generated and put intoa graph)
+The program will ask for the number of the start city which must be positive and lower than the number of cities
+The program will ask for the number of the destination city which must be positive and lower than the number of cities
+
+It will then generate the output as the solution and the time needed to compute the solution for each RBFS and A* with manhattan and 
+euclidian heuristic. And it will generate a comparison between these by the number of succesors, states, and goal tests
